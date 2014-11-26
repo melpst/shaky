@@ -13,6 +13,7 @@ class SimpleGame(object):
         self.fps = fps
         self.background_color = background_color
 
+        self.is_started = False
         self.is_terminated = False
 
     def __game_init(self):

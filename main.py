@@ -20,14 +20,18 @@ class ShakyGame(gamelib.SimpleGame):
             self.player.move_up()
         elif self.is_key_pressed(K_DOWN):
             self.player.move_down()
-        self.render_time()
+        elif self.is_key_pressed(K_RETURN):
+            self.is_started = True
+        if self.is_started:
+            self.render_time()
         
     def render_time(self):
         self.time += self.clock.get_time()
-        self.time_image = self.font.render("Time = %.2f" % (self.time/1000.0), 0,ShakyGame.WHITE)
+        self.time_image = self.font.render("Time = %d" % (self.time/1000.0), 0,ShakyGame.WHITE)
 
     def render(self, surface):
-        surface.blit(self.time_image, (10,10))
+        if self.is_started:
+            surface.blit(self.time_image, (480,10))
 
 def main():
     game = ShakyGame()
