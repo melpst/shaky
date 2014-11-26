@@ -6,13 +6,14 @@ class SimpleGame(object):
     def __init__(self,
                  title,
                  background_color,
-                 window_size=(640,480),
+                 window_size=(1000,800),
                  fps=60):
         self.title = title
         self.window_size = window_size
         self.fps = fps
         self.background_color = background_color
 
+        self.is_started = False
         self.is_terminated = False
 
     def __game_init(self):
