@@ -27,7 +27,10 @@ class SimpleGame(object):
             if event.type == QUIT:
                 self.terminate()
             elif event.type == KEYDOWN:
-                self.on_key_down(event.key)
+                if event.key == pygame.K_ESCAPE:
+                    self.terminate()
+                else:
+                    self.on_key_down(event.key)
             elif event.type ==KEYUP:
                 self.on_key_up(event.key)
 
