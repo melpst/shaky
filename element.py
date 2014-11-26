@@ -2,29 +2,37 @@ import pygame
 from pygame.locals import *
 
 class Up:
-    def __init__(self):
-        self.pos = (400,20)
-        self.img = pygame.image.load("up.png")
-        
+    
+    def __init__(self, pos=(400,20)):
+        (self.x,self.y) = pos
+        self.img = pygame.image.load("res/up.png")
+        self.vy =80
+        self.count = 0
+
     def render(self,surface):
-        pos = self.pos
-        surface.blit(self.img,self.pos)
+        surface.blit(self.img,(self.x,self.y))
+    
+    def change_speed(self):
+        self.vy += 20
+
+    def move(self,delta_t):
+        self.y += self.vy*(1./delta_t)
 
 class Down(Up):
     def __init__(self):
-        self.pos = (500,20)
-        self.img = pygame.image.load("down.png")
+        (self.x,self.y) = (500,20)
+        self.img = pygame.image.load("res/down.png")
         
 
 class Left(Up):
     def __init__(self):
-        self.pos = (300,20)
-        self.img = pygame.image.load("left.png")
+        (self.x,self.y) = (300,20)
+        self.img = pygame.image.load("res/left.png")
 
 class Right(Up):
     def __init__(self):
-        self.pos = (600,20)
-        self.img = pygame.image.load("right.png")
+        (self.x,self.y) = (600,20)
+        self.img = pygame.image.load("res/right.png")
 
 
 ######################################
@@ -32,7 +40,7 @@ class Music(object):
 
     def __init__(self):
         pygame.mixer.init()
-        pygame.mixer.music.load('Nyan_Cat.ogg')
+        pygame.mixer.music.load('res/Nyan_Cat.ogg')
 
     def play(self):
         pygame.mixer.music.play()
