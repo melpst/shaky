@@ -28,7 +28,7 @@ class ShakyGame(gamelib.SimpleGame):
             self.player.move_down()
         elif self.is_key_pressed(K_RETURN):
             self.is_started = True
-#            self.music.play()
+  #          self.music.play()
         if self.is_started:
             self.render_time()
         
