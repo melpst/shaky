@@ -16,7 +16,7 @@ class SimpleGame(object):
         self.is_started = False
         self.is_terminated = False
 
-    def __game_init(self):
+    def init(self):
         pygame.init()
         self.clock = pygame.time.Clock()
         self.surface = pygame.display.set_mode(self.window_size)
@@ -57,8 +57,6 @@ class SimpleGame(object):
             return False
         return (keys_pressed[key])
 
-    def init(self):
-        self.__game_init()
 
     def update(self):
         pass

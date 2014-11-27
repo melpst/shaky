@@ -12,17 +12,28 @@ class ShakyGame(gamelib.SimpleGame):
     def __init__(self):
         super(ShakyGame, self).__init__('ShakyShaky', ShakyGame.BLACK)
         self.time = 0
-        self.music = Music()
         
-        self.up = Up()
-        self.down = Down()
-        self.left = Left()
-        self.right = Right()
+        self.lock_up = Up()
+        self.lock_down = Down()
+        self.lock_left = Left()
+        self.lock_right = Right()
 
     def init(self):
         super(ShakyGame, self).init()
+        self.music = Music()
+        y = 600
+        
+        self.up = Up(y=y)
+        self.down = Down(y=y)
+        self.left = Left(y=y)
+        self.right = Right(y=y)
+
+        self.run_arrow = [self.left,self.down,self.up,self.right]
 
     def update(self):
+        self.check_key_pressed()
+
+    def check_key_pressed(self):
         if self.is_key_pressed(K_UP):
             print "up"
         elif self.is_key_pressed(K_DOWN):
@@ -36,20 +47,34 @@ class ShakyGame(gamelib.SimpleGame):
 #            self.music.play()
         if self.is_started:
             self.render_time()
-        
+            if self.time > 3.0:
+                self.move_arrow()
+
+    def move_arrow(self):
+        if not self.up == None:
+            self.up.move(self.fps, self.time)
+
     def render_time(self):
-        self.time += self.clock.get_time()
-        self.time_image = self.font.render("Time = %.3f" % (self.time/1000.0), 0,ShakyGame.WHITE)
+        self.time += self.clock.get_time()/1000.0
+        self.time_image = self.font.render("Time = %.3f" % self.time, 0,ShakyGame.WHITE)
 
     def render(self, surface):
         if self.is_started:
             surface.blit(self.time_image, (800,10))
 
-            self.up.render(surface)
-            self.down.render(surface)
-            self.left.render(surface)
-            self.right.render(surface)
+            self.lock_up.render(surface)
+            self.lock_down.render(surface)
+            self.lock_left.render(surface)
+            self.lock_right.render(surface)
 
+            self.render_arrow(surface)
+            
+
+    def render_arrow(self, surface):
+        if self.time > 3.0 and self.up.y > 20:
+            self.up.render(surface)
+
+            
 
 def main():
     game = ShakyGame()
