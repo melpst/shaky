@@ -1,13 +1,28 @@
 import pygame
 from pygame.locals import *
 
-class Up:
-    
-    def __init__(self, x = 400, y = 20):
-        (self.x,self.y) = (x,y)
-        self.img = pygame.image.load("res/up.png")
-        self.vy =80
-        self.count = 0
+from random import *
+
+class Arrow:
+    def __init__(self,type = "none", y = 20):
+        self.type = type
+        self.y = y
+        self.vy = 120
+        
+        if self.type == "left":
+            self.x = 300
+            self.img = pygame.image.load("res/left.png")
+        elif self.type == "down":
+            self.x = 500
+            self.img = pygame.image.load("res/down.png")
+        elif self.type == "up":
+            self.x = 400
+            self.img = pygame.image.load("res/up.png")
+        elif self.type == "right":
+            self.x = 600
+            self.img = pygame.image.load("res/right.png")
+        else:
+            self.type = randint(0,3)
 
     def render(self,surface):
         surface.blit(self.img,(self.x,self.y))
@@ -24,23 +39,6 @@ class Up:
                 self.change_speed()
                 is_changed = True
 
-class Down(Up):
-    def __init__(self, x = 500, y = 20):
-        (self.x,self.y) = (x,y)
-        self.img = pygame.image.load("res/down.png")
-        
-
-class Left(Up):
-    def __init__(self, x = 300, y = 20):
-        (self.x,self.y) = (x,y)
-        self.img = pygame.image.load("res/left.png")
-
-class Right(Up):
-    def __init__(self, x = 600, y = 20):
-        (self.x,self.y) = (x,y)
-        self.img = pygame.image.load("res/right.png")
-
-
 ######################################
 class Music(object):
 
@@ -50,7 +48,3 @@ class Music(object):
 
     def play(self):
         pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy():
-            pass
-            #pygame.time.Clock().tick(10)
-
