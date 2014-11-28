@@ -19,7 +19,6 @@ class ShakyGame(gamelib.SimpleGame):
         lock_down = Arrow(1)
         lock_up = Arrow(2)
         lock_right = Arrow(3)
-
         self.lock_arrow = [lock_left,lock_down,lock_up,lock_right]
 
     def init(self):
@@ -27,6 +26,7 @@ class ShakyGame(gamelib.SimpleGame):
         self.music = Music()
         y = 600
         self.arrow = Arrow(y=y)
+        self.bg = Background()
 
     def update(self):
         self.check_key_pressed()
@@ -36,7 +36,7 @@ class ShakyGame(gamelib.SimpleGame):
     def render(self, surface):
         if self.is_started: 
             surface.blit(self.time_image, (800,10))
-                
+            self.bg.render(surface)
             self.render_arrow(surface)
     
     def render_time(self):
