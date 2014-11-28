@@ -15,10 +15,10 @@ class ShakyGame(gamelib.SimpleGame):
         super(ShakyGame, self).__init__('ShakyShaky', ShakyGame.BLACK)
         self.time = 0
         
-        lock_up = Arrow("up")
-        lock_down = Arrow("down")
-        lock_left = Arrow("left")
-        lock_right = Arrow("right")
+        lock_left = Arrow(0)
+        lock_down = Arrow(1)
+        lock_up = Arrow(2)
+        lock_right = Arrow(3)
 
         self.lock_arrow = [lock_left,lock_down,lock_up,lock_right]
 
@@ -26,13 +26,7 @@ class ShakyGame(gamelib.SimpleGame):
         super(ShakyGame, self).init()
         self.music = Music()
         y = 600
-        
-        up = Arrow("up",y)
-        down = Arrow("down",y)
-        left = Arrow("left",y)
-        right = Arrow("right",y)
-
-        self.arrow = [left,down,up,right]
+        self.arrow = Arrow(y=y)
 
     def update(self):
         self.check_key_pressed()
@@ -52,13 +46,13 @@ class ShakyGame(gamelib.SimpleGame):
     def render_arrow(self, surface):
         for lock in self.lock_arrow:
             lock.render(surface)
-#if self.time > 3.0 and self.arrow[ShakyGame.index].y > 20:
-#self.arrow[ShakyGame.index].render(surface)
+        if self.time > 3.0 and self.arrow.y > 20:
+            self.arrow.render(surface)
                 
     
     def move_arrow(self):
         if self.time > 3.0:
-            self.arrow[ShakyGame.index].move(self.fps, self.time)
+            self.arrow.move(self.fps, self.time)
 
     def check_key_pressed(self):
         if self.is_key_pressed(K_UP):
@@ -75,7 +69,7 @@ class ShakyGame(gamelib.SimpleGame):
 
     def play_game(self): 
         self.render_time()
-#self.move_arrow()
+        self.move_arrow()
 
 def main():
     game = ShakyGame()

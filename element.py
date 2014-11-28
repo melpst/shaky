@@ -4,28 +4,31 @@ from pygame.locals import *
 from random import *
 
 class Arrow:
-    def __init__(self,type = "none", y = 20):
+    def __init__(self,type = 4, y = 20):
         self.type = type
         self.y = y
         self.vy = 120
         
-        if self.type == "left":
-            self.x = 300
-            self.img = pygame.image.load("res/left.png")
-        elif self.type == "down":
-            self.x = 500
-            self.img = pygame.image.load("res/down.png")
-        elif self.type == "up":
-            self.x = 400
-            self.img = pygame.image.load("res/up.png")
-        elif self.type == "right":
-            self.x = 600
-            self.img = pygame.image.load("res/right.png")
-        else:
+        if self.type == 4:
             self.type = randint(0,3)
-
+        self.init()
+        
     def render(self,surface):
         surface.blit(self.img,(self.x,self.y))
+
+    def init(self):
+        if self.type == 0:
+            self.x = 300
+            self.img = pygame.image.load("res/left.png")
+        elif self.type == 1:
+            self.x = 500
+            self.img = pygame.image.load("res/down.png")
+        elif self.type == 2:
+            self.x = 400
+            self.img = pygame.image.load("res/up.png")
+        elif self.type == 3:
+            self.x = 600
+            self.img = pygame.image.load("res/right.png")
     
     def change_speed(self):
         self.vy += 20
