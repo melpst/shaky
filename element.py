@@ -7,7 +7,8 @@ class Arrow:
     def __init__(self,type = 4, y = 20):
         self.type = type
         self.y = y
-        self.vy = 120
+        self.vy = 50
+        self.is_changed = False
         
         if self.type == 4:
             self.type = randint(0,3)
@@ -31,16 +32,15 @@ class Arrow:
             self.img = pygame.image.load("res/right.png")
     
     def change_speed(self):
-        self.vy += 20
+        self.vy += 100
+        self.is_changed = True
 
     def move(self,delta_t, time):
-        is_changed = False
-        if time < 13.0:
+        if time >= 3.0:
             self.y -= self.vy*(1./delta_t)
-        else:
-            if not is_changed:
+        if time > 5.0:
+            if not self.is_changed:
                 self.change_speed()
-                is_changed = True
 
 ######################################
 class Music(object):

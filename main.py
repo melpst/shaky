@@ -48,8 +48,7 @@ class ShakyGame(gamelib.SimpleGame):
             lock.render(surface)
         if self.time > 3.0 and self.arrow.y > 20:
             self.arrow.render(surface)
-                
-    
+                 
     def move_arrow(self):
         if self.time > 3.0:
             self.arrow.move(self.fps, self.time)
