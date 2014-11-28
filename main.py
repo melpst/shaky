@@ -35,8 +35,8 @@ class ShakyGame(gamelib.SimpleGame):
 
     def render(self, surface):
         if self.is_started: 
-            surface.blit(self.time_image, (800,10))
             self.bg.render(surface)
+            surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
     
     def render_time(self):
