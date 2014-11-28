@@ -71,10 +71,10 @@ class ShakyGame(gamelib.SimpleGame):
             print "right"
         elif self.is_key_pressed(K_RETURN):
             self.is_started = True
+            self.music.play()
 
     def play_game(self): 
         self.render_time()
-        #self.music.play()
         self.move_arrow()
 
 def main():
