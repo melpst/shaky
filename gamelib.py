@@ -6,7 +6,7 @@ class SimpleGame(object):
     def __init__(self,
                  title,
                  background_color,
-                 window_size=(1000,800),
+                 window_size=(800,600),
                  fps=60):
         self.title = title
         self.window_size = window_size
@@ -56,7 +56,6 @@ class SimpleGame(object):
         if key < 0 or key >= len(keys_pressed):
             return False
         return (keys_pressed[key])
-
 
     def update(self):
         pass
