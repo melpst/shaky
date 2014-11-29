@@ -34,10 +34,20 @@ class ShakyGame(gamelib.SimpleGame):
         self.arrow = [Arrow()]
         self.tmp_time = self.time
         self.score = 0
+        self.hp = 50
 
     def update(self):
+        if self.board.getSwitch():
+            if self.is_started == False:
+            #    if self.pressed_switch == 0:
+                print 'True'
+                self.is_started = True
+            #    self.pressed_switch = 1
         if self.is_started:
             self.play_game()
+            self.bg.change_image()
+            self.music.play()
+        #    print "2"
 
     def render(self, surface):
         self.bg.render(surface)
@@ -71,13 +81,14 @@ class ShakyGame(gamelib.SimpleGame):
             if key == K_RETURN:
                 self.is_started = True
                 self.music.play()
-            elif self.board.getSwitch():
-                if self.pressed_switch == 0:
-                    self.is_started = True
-                    self.music.play()
-                    self.pressed_switch = 1
-            if self.is_started:
-                self.bg.change_image()
+        #    elif self.board.getSwitch():
+        #        if self.pressed_switch == 0:
+        #            print 'True'
+        #            self.is_started = True
+        #            self.music.play()
+        #            self.pressed_switch = 1
+    #        if self.is_started :
+    #           self.bg.change_image()
 
     def render_time(self):
         self.time += self.clock.get_time()/1000.0
