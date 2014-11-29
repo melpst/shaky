@@ -40,11 +40,12 @@ class ShakyGame(gamelib.SimpleGame):
             self.play_game()
 
     def render(self, surface):
+        self.bg.render(surface)
         if self.is_started: 
-            self.bg.render(surface)
+          #  self.bg.render(surface)
             surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
-    
+
     def on_key_up(self,key):
         if len(self.arrow) > 0:
             arrow = self.arrow[0]
@@ -75,6 +76,8 @@ class ShakyGame(gamelib.SimpleGame):
                     self.is_started = True
                     self.music.play()
                     self.pressed_switch = 1
+            if self.is_started:
+                self.bg.change_image()
 
     def render_time(self):
         self.time += self.clock.get_time()/1000.0
