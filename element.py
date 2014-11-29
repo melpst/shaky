@@ -4,14 +4,16 @@ from pygame.locals import *
 from random import *
 
 class Arrow:
-    def __init__(self,type = -1, y = 20):
+    def __init__(self,type = -1):
         self.type = type
-        self.y = y
         self.vy = 50
         self.is_changed = False
         
         if self.type == -1:
+            self.y = 500
             self.type = randint(0,3)
+        else:
+            self.y = 20
         self.init()
         
     def render(self,surface):

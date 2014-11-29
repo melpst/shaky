@@ -24,9 +24,8 @@ class ShakyGame(gamelib.SimpleGame):
     def init(self):
         super(ShakyGame, self).init()
         self.music = Music()
-        y = 600
-        self.arrow = Arrow(y=y)
         self.bg = Background()
+        self.arrow = [Arrow()]
 
     def update(self):
         self.check_key_pressed()
@@ -39,20 +38,6 @@ class ShakyGame(gamelib.SimpleGame):
             surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
     
-    def render_time(self):
-        self.time += self.clock.get_time()/1000.0
-        self.time_image = self.font.render("Time = %.3f" % self.time, 0,ShakyGame.WHITE)
-            
-    def render_arrow(self, surface):
-        for lock in self.lock_arrow:
-            lock.render(surface)
-        if self.time > 3.0 and self.arrow.y > 20:
-            self.arrow.render(surface)
-                 
-    def move_arrow(self):
-        if self.time > 3.0:
-            self.arrow.move(self.fps, self.time)
-
     def check_key_pressed(self):
         if self.is_key_pressed(K_UP):
             print "up"
@@ -66,8 +51,35 @@ class ShakyGame(gamelib.SimpleGame):
             self.is_started = True
             self.music.play()
 
+    def render_time(self):
+        self.time += self.clock.get_time()/1000.0
+        self.time_image = self.font.render("Time = %.3f" % self.time, 0,ShakyGame.WHITE)
+            
+    def render_arrow(self, surface):
+        for lock in self.lock_arrow:
+            lock.render(surface)
+        if self.time > 3.0 and len(self.arrow) > 0:
+            for arrow in self.arrow:
+                arrow.render(surface)
+                 
+    def move_arrow(self):
+        if len(self.arrow) > 0:
+            for arrow in self.arrow:
+                arrow.move(self.fps, self.time)
+                if arrow.y < 20:
+                    self.arrow.remove(arrow)
+                    print "remove"
+
+    def arrow_creator(self):
+        if len(self.arrow) == 0:
+            self.arrow.append(Arrow())
+
+    def arrow_destroyey(self):
+           pass
+
     def play_game(self): 
         self.render_time()
+        self.arrow_creator()
         self.move_arrow()
 
 def main():
