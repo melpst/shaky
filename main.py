@@ -23,6 +23,7 @@ class ShakyGame(gamelib.SimpleGame):
         lock_up = Arrow(2)
         lock_right = Arrow(3)
         self.lock_arrow = [lock_left,lock_down,lock_up,lock_right]
+        
         self.board =PeriBoard(findDevices()[0])
         self.pressed_switch = 0
 
@@ -32,10 +33,9 @@ class ShakyGame(gamelib.SimpleGame):
         self.bg = Background()
         self.arrow = [Arrow()]
         self.tmp_time = self.time
-        self.button = -1
+        self.score = 0
 
     def update(self):
-        self.check_key_pressed()
         if self.is_started:
             self.play_game()
 
@@ -45,23 +45,36 @@ class ShakyGame(gamelib.SimpleGame):
             surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
     
-    def check_key_pressed(self):
-        if self.is_key_pressed(K_LEFT):
-            print "left"
-        elif self.is_key_pressed(K_DOWN):
-            print "down"
-        elif self.is_key_pressed(K_UP):
-            print "up"
-        elif self.is_key_pressed(K_RIGHT):
-            print "right"
-      #  elif self.is_key_pressed(K_RETURN):
-      #      self.is_started = True
-      #      self.music.play()
-        elif self.board.getSwitch():
-            if self.pressed_switch == 0:
+    def on_key_up(self,key):
+        if len(self.arrow) > 0:
+            arrow = self.arrow[0]
+            if key == K_LEFT:
+                if arrow.type == 0:
+                    self.score += 1
+                print "left"
+            elif key == K_DOWN:
+                if arrow.type == 1:
+                    self.score += 1
+                print "down"
+            elif key == K_UP:
+                if arrow.type == 2:
+                    self.score += 1
+                print "up"
+            elif key == K_RIGHT:
+                if arrow.type == 3:
+                    self.score += 1
+                print "right"
+            self.arrow_destroyer(arrow)
+
+        if self.is_started == False:
+            if key == K_RETURN:
                 self.is_started = True
                 self.music.play()
-                self.pressed_switch += 1
+            elif self.board.getSwitch():
+                if self.pressed_switch == 0:
+                    self.is_started = True
+                    self.music.play()
+                    self.pressed_switch = 1
 
     def render_time(self):
         self.time += self.clock.get_time()/1000.0
