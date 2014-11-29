@@ -16,6 +16,9 @@ class ShakyGame(gamelib.SimpleGame):
     
     def __init__(self):
         super(ShakyGame, self).__init__('ShakyShaky', ShakyGame.BLACK)
+        
+        self.board =PeriBoard(findDevices()[0])
+        self.pressed_switch = 0
         self.time = 0
         
         lock_left = Arrow(0)
@@ -24,11 +27,10 @@ class ShakyGame(gamelib.SimpleGame):
         lock_right = Arrow(3)
         self.lock_arrow = [lock_left,lock_down,lock_up,lock_right]
         
-        self.board =PeriBoard(findDevices()[0])
-        self.pressed_switch = 0
 
     def init(self):
         super(ShakyGame, self).init()
+        
         self.music = Music()
         self.bg = Background()
         self.arrow = [Arrow()]
@@ -39,56 +41,55 @@ class ShakyGame(gamelib.SimpleGame):
     def update(self):
         if self.board.getSwitch():
             if self.is_started == False:
-            #    if self.pressed_switch == 0:
                 print 'True'
                 self.is_started = True
-            #    self.pressed_switch = 1
+                self.music.play()
         if self.is_started:
             self.play_game()
             self.bg.change_image()
-            self.music.play()
-        #    print "2"
 
     def render(self, surface):
         self.bg.render(surface)
         if self.is_started: 
-          #  self.bg.render(surface)
             surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
 
     def on_key_up(self,key):
         if len(self.arrow) > 0:
             arrow = self.arrow[0]
-            if key == K_LEFT:
-                if arrow.type == 0:
-                    self.score += 1
-                print "left"
-            elif key == K_DOWN:
-                if arrow.type == 1:
-                    self.score += 1
-                print "down"
-            elif key == K_UP:
-                if arrow.type == 2:
-                    self.score += 1
-                print "up"
-            elif key == K_RIGHT:
-                if arrow.type == 3:
-                    self.score += 1
-                print "right"
-            self.arrow_destroyer(arrow)
+            if arrow.y < 30 and arrow.y > 10:
+                self.check_key_press(arrow,key)
+                self.arrow_destroyer(arrow)
+            else:
+                if key == K_LEFT or key == K_DOWN or key == K_UP or key == K_RIGHT:
+                    self.arrow_destroyer(arrow)
 
         if self.is_started == False:
             if key == K_RETURN:
                 self.is_started = True
                 self.music.play()
-        #    elif self.board.getSwitch():
-        #        if self.pressed_switch == 0:
-        #            print 'True'
-        #            self.is_started = True
-        #            self.music.play()
-        #            self.pressed_switch = 1
-    #        if self.is_started :
-    #           self.bg.change_image()
+
+    def check_key_press(self,arrow,key):
+        if key == K_LEFT:
+            if arrow.type == 0:
+                self.score += 1
+                print self.score
+            print "left"
+        elif key == K_DOWN:
+            if arrow.type == 1:
+                self.score += 1
+                print self.score
+            print "down"
+        elif key == K_UP:
+            if arrow.type == 2:
+                self.score += 1
+                print self.score
+            print "up"
+        elif key == K_RIGHT:
+            if arrow.type == 3:
+                self.score += 1
+                print self.score
+            print "right"
 
     def render_time(self):
         self.time += self.clock.get_time()/1000.0
@@ -124,7 +125,6 @@ class ShakyGame(gamelib.SimpleGame):
         if int(self.time) == self.tmp_time+5: 
             self.arrow_creator()
             self.tmp_time += 2
-
 
 def main():
     game = ShakyGame()
