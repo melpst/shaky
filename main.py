@@ -5,6 +5,9 @@ import gamelib
 from element import *
 
 from random import *
+from practicum import findDevices
+from peri import PeriBoard
+from usb import USBError
 
 class ShakyGame(gamelib.SimpleGame):
     BLACK = pygame.Color('black')
@@ -20,6 +23,8 @@ class ShakyGame(gamelib.SimpleGame):
         lock_up = Arrow(2)
         lock_right = Arrow(3)
         self.lock_arrow = [lock_left,lock_down,lock_up,lock_right]
+        self.board =PeriBoard(findDevices()[0])
+        self.pressed_switch = 0
 
     def init(self):
         super(ShakyGame, self).init()
@@ -42,16 +47,21 @@ class ShakyGame(gamelib.SimpleGame):
     
     def check_key_pressed(self):
         if self.is_key_pressed(K_LEFT):
-                print "left"
+            print "left"
         elif self.is_key_pressed(K_DOWN):
-                print "down"
+            print "down"
         elif self.is_key_pressed(K_UP):
-                print "up"
+            print "up"
         elif self.is_key_pressed(K_RIGHT):
-                print "right"
-        elif self.is_key_pressed(K_RETURN):
-            self.is_started = True
-            self.music.play()
+            print "right"
+      #  elif self.is_key_pressed(K_RETURN):
+      #      self.is_started = True
+      #      self.music.play()
+        elif self.board.getSwitch():
+            if self.pressed_switch == 0:
+                self.is_started = True
+                self.music.play()
+                self.pressed_switch += 1
 
     def render_time(self):
         self.time += self.clock.get_time()/1000.0
