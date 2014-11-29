@@ -26,6 +26,8 @@ class ShakyGame(gamelib.SimpleGame):
         self.music = Music()
         self.bg = Background()
         self.arrow = [Arrow()]
+        self.tmp_time = self.time
+        self.button = -1
 
     def update(self):
         self.check_key_pressed()
@@ -39,14 +41,14 @@ class ShakyGame(gamelib.SimpleGame):
             self.render_arrow(surface)
     
     def check_key_pressed(self):
-        if self.is_key_pressed(K_UP):
-            print "up"
+        if self.is_key_pressed(K_LEFT):
+                print "left"
         elif self.is_key_pressed(K_DOWN):
-            print "down"
-        elif self.is_key_pressed(K_LEFT):
-            print "left"
+                print "down"
+        elif self.is_key_pressed(K_UP):
+                print "up"
         elif self.is_key_pressed(K_RIGHT):
-            print "right"
+                print "right"
         elif self.is_key_pressed(K_RETURN):
             self.is_started = True
             self.music.play()
@@ -58,29 +60,34 @@ class ShakyGame(gamelib.SimpleGame):
     def render_arrow(self, surface):
         for lock in self.lock_arrow:
             lock.render(surface)
-        if self.time > 3.0 and len(self.arrow) > 0:
+        
+        if self.time > 1.0 and len(self.arrow) > 0:
             for arrow in self.arrow:
                 arrow.render(surface)
                  
     def move_arrow(self):
-        if len(self.arrow) > 0:
-            for arrow in self.arrow:
-                arrow.move(self.fps, self.time)
-                if arrow.y < 20:
-                    self.arrow.remove(arrow)
-                    print "remove"
+        for arrow in self.arrow:
+            arrow.move(self.fps, self.time)
+            if arrow.y < -100:
+                self.arrow_destroyer(arrow)
 
     def arrow_creator(self):
-        if len(self.arrow) == 0:
-            self.arrow.append(Arrow())
+        self.arrow.append(Arrow())
 
-    def arrow_destroyey(self):
-           pass
+    def arrow_destroyer(self,arrow):
+        self.arrow.remove(arrow)
+        print "remove"
 
     def play_game(self): 
         self.render_time()
-        self.arrow_creator()
-        self.move_arrow()
+        
+        if len(self.arrow) > 0:
+            self.move_arrow()
+        
+        if int(self.time) == self.tmp_time+5: 
+            self.arrow_creator()
+            self.tmp_time += 2
+
 
 def main():
     game = ShakyGame()

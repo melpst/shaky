@@ -10,7 +10,7 @@ class Arrow:
         self.is_changed = False
         
         if self.type == -1:
-            self.y = 500
+            self.y = 450
             self.type = randint(0,3)
         else:
             self.y = 20
@@ -34,11 +34,11 @@ class Arrow:
             self.img = pygame.image.load("res/right.png") 
     
     def change_speed(self):
-        self.vy += 100
+        self.vy += 50
         self.is_changed = True
 
     def move(self,delta_t, time):
-        if time >= 3.0:
+        if time >= 1.0:
             self.y -= self.vy*(1.0/delta_t)
         if time > 5.0:
             if not self.is_changed:
