@@ -47,6 +47,7 @@ class ShakyGame(gamelib.SimpleGame):
         if self.is_started:
             self.play_game()
             self.bg.change_image()
+#            self.bg.change_image() #if change_image()*2 == endgameImage
 
     def render(self, surface):
         self.bg.render(surface)
