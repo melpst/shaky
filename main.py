@@ -47,7 +47,9 @@ class ShakyGame(gamelib.SimpleGame):
                 print 'True'
                 self.is_started = True
                 self.music.play()
+                print "music in update"
                 self.is_ended = False
+                self.life = 3
 
         if self.is_started and not self.is_ended:
             self.play_game()
@@ -65,6 +67,7 @@ class ShakyGame(gamelib.SimpleGame):
                 self.bg.change_image(self.is_ended)
                 self.chk_bg = False
             self.music.stop()
+            print "stop music in end state"
 
     def render(self, surface):
         self.end_state()
