@@ -63,10 +63,20 @@ class Background(object):
         self.count = 0
 
     def change_image(self, index = 0):
-        self.pic = self.images[index]
-        if index == 1:
+#        self.pic = self.images[index]
+#        if index == 1:
+#            self.x = -200
+#        else :
+#            self.x = 0
+        
+        if self.count < len(self.images)-1:
+            self.count += 1
+        else:
+            self.count = 1
+        self.pic = self.images[self.count]
+        if self.pic == "res/Nyan-cat.jpg":
             self.x = -200
-        else :
+        else:
             self.x = 0
 
     def render(self,surface):

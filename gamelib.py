@@ -15,6 +15,7 @@ class SimpleGame(object):
 
         self.is_started = False
         self.is_terminated = False
+        self.is_ended = False
 
     def init(self):
         pygame.init()

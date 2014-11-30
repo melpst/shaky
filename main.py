@@ -40,25 +40,41 @@ class ShakyGame(gamelib.SimpleGame):
         self.tmp_time = self.time
         self.score = 0
         self.hp = 50
-
+        self.chk_bg = False
     def update(self):
         if not self.board == [] and self.board.getSwitch():
             if self.is_started == False:
                 print 'True'
                 self.is_started = True
                 self.music.play()
-        if self.is_started:
+
+        if self.is_started and not self.is_ended:
             self.play_game()
-            self.bg.change_image(1)
-        if self.score == -3:
+            if self.chk_bg == False:
+                print "in chk_bg"
+                self.chk_bg = True
+                self.bg.change_image()
+#            self.bg.change_image(1)
+        if self.score <= -3:
             self.is_started = False
+            self.is_ended = True
 #            self.bg.change_image() #if change_image()*2 == endgameImage
+    def end_state(self):
+        if not self.is_started and self.is_ended:
+            if self.chk_bg == True :
+                self.bg.change_image()
+                self.chk_bg = False
 
     def render(self, surface):
+        self.end_state()
         self.bg.render(surface)
+        if not self.is_started and self.is_ended:
+            self.end_time = pygame.font.SysFont("Tlwg Typist,BlodOblique",30).render("YOUR TIME : %.3f"% self.time ,1,ShakyGame.WHITE)
+            surface.blit(self.end_time,(400,280))
         if self.is_started: 
             surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
+            
 
     def on_key_up(self,key):
         if len(self.arrow) > 0:
