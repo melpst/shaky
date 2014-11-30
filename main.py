@@ -62,7 +62,7 @@ class ShakyGame(gamelib.SimpleGame):
     def end_state(self):
         if not self.is_started and self.is_ended:
             if self.chk_bg == True :
-                self.bg.change_image()
+                self.bg.change_image(self.is_ended)
                 self.chk_bg = False
 
     def render(self, surface):
