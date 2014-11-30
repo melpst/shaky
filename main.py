@@ -17,7 +17,10 @@ class ShakyGame(gamelib.SimpleGame):
     def __init__(self):
         super(ShakyGame, self).__init__('ShakyShaky', ShakyGame.BLACK)
         
-        self.board =PeriBoard(findDevices()[0])
+        self.board = []
+        for i,dev in enumerate(findDevices()):
+            self.board = PeriBoard(dev)
+            print "Board connect"
         self.pressed_switch = 0
         self.time = 0
         
@@ -39,14 +42,16 @@ class ShakyGame(gamelib.SimpleGame):
         self.hp = 50
 
     def update(self):
-        if self.board.getSwitch():
+        if not self.board == [] and self.board.getSwitch():
             if self.is_started == False:
                 print 'True'
                 self.is_started = True
                 self.music.play()
         if self.is_started:
             self.play_game()
-            self.bg.change_image()
+            self.bg.change_image(1)
+        if self.score == -3:
+            self.is_started = False
 #            self.bg.change_image() #if change_image()*2 == endgameImage
 
     def render(self, surface):
@@ -64,6 +69,7 @@ class ShakyGame(gamelib.SimpleGame):
             else:
                 if key == K_LEFT or key == K_DOWN or key == K_UP or key == K_RIGHT:
                     self.arrow_destroyer(arrow)
+                    self.score -= 1
 
         if self.is_started == False:
             if key == K_RETURN:

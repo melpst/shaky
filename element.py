@@ -58,27 +58,16 @@ class Background(object):
     def __init__(self):
         (self.x, self.y) = (0, 0)
         self.images = ("res/start_background.jpg","res/Nyan-cat.jpg","res/space.jpg") # add image in tuple 
-        self.pic ="res/start_background.jpg" # add image for first time
+        self.pic = self.images[0] # add image for first time
         self.time = 0
         self.count = 0
 
-    def change_image(self):
-
-        if self.count < len(self.images)-1:
-    #        print len(self.images),self.count
-            self.count += 1
-        else:
-            self.count = 1
-   #     print self.images[self.count],self.count
-        self.pic = self.images[self.count]
-        
-        if self.pic == "res/Nyan-cat.jpg":
+    def change_image(self, index = 0):
+        self.pic = self.images[index]
+        if index == 1:
             self.x = -200
         else :
             self.x = 0
-
-
-    #    print self.pic
 
     def render(self,surface):
         self.img =pygame.image.load(self.pic)
