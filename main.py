@@ -40,6 +40,7 @@ class ShakyGame(gamelib.SimpleGame):
         self.score = 0
         self.life = 3
         self.chk_bg = False
+        self.is_destroyed = True
     
     def update(self):
         if not self.board == [] and self.board.getSwitch():
@@ -53,6 +54,7 @@ class ShakyGame(gamelib.SimpleGame):
 
         if self.is_started and not self.is_ended:
             self.play_game()
+            self.check_board()
             if self.chk_bg == False:
                 print "in chk_bg"
                 self.chk_bg = True
@@ -79,13 +81,26 @@ class ShakyGame(gamelib.SimpleGame):
             surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
             
-
+    def check_board(self):
+        x = self.board.getAcceleroX()
+        y = self.board.getAcceleroY()
+        arrow = self.arrow[0]
+        if self.is_destroyed:
+            if arrow.y < 30 and arrow.y > 10:
+                if x<-200:
+                    self.check_key_press(arrow,K_LEFT)
+                if x>200:
+                    self.check_key_press(arrow,K_RIGHT)
+                if y<-200:
+                    self.check_key_press(arrow,K_UP)
+                if y>200:
+                    self.check_key_press(arrow,K_DOWN)
+            
     def on_key_up(self,key):
         if len(self.arrow) > 0:
             arrow = self.arrow[0]
             if arrow.y < 30 and arrow.y > 10:
                 self.check_key_press(arrow,key)
-                self.arrow_destroyer(arrow)
             else:
                 if key == K_LEFT or key == K_DOWN or key == K_UP or key == K_RIGHT:
                     self.arrow_destroyer(arrow)
@@ -101,22 +116,30 @@ class ShakyGame(gamelib.SimpleGame):
             if arrow.type == 0:
                 self.score += 1
                 print self.score
+                self.is_destroyed = False
             print "left"
         elif key == K_DOWN:
             if arrow.type == 1:
                 self.score += 1
                 print self.score
+                self.is_destroyed = False
             print "down"
         elif key == K_UP:
             if arrow.type == 2:
                 self.score += 1
                 print self.score
+                self.is_destroyed = False
             print "up"
         elif key == K_RIGHT:
             if arrow.type == 3:
                 self.score += 1
                 print self.score
+                self.is_destroyed = False
             print "right"
+        else:
+            self.life -= 1
+        if not self.is_destroyed:
+            self.arrow_destroyer(arrow)
 
     def render_time(self):
         self.time += self.clock.get_time()/1000.0
@@ -142,6 +165,7 @@ class ShakyGame(gamelib.SimpleGame):
 
     def arrow_destroyer(self,arrow):
         self.arrow.remove(arrow)
+        self.is_destroyed = True
         print "remove"
 
     def play_game(self): 
