@@ -64,6 +64,7 @@ class ShakyGame(gamelib.SimpleGame):
             if self.chk_bg == True :
                 self.bg.change_image(self.is_ended)
                 self.chk_bg = False
+            self.music.stop()
 
     def render(self, surface):
         self.end_state()

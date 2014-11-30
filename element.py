@@ -53,6 +53,9 @@ class Music(object):
 
     def play(self):
         pygame.mixer.music.play()
+        
+    def stop(self):
+        pygame.mixer.music.stop()
 #######################################
 class Background(object):
     def __init__(self):
