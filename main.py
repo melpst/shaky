@@ -30,7 +30,6 @@ class ShakyGame(gamelib.SimpleGame):
         lock_right = Arrow(3)
         self.lock_arrow = [lock_left,lock_down,lock_up,lock_right]
         
-
     def init(self):
         super(ShakyGame, self).init()
         
@@ -39,14 +38,16 @@ class ShakyGame(gamelib.SimpleGame):
         self.arrow = [Arrow()]
         self.tmp_time = self.time
         self.score = 0
-        self.hp = 50
+        self.life = 3
         self.chk_bg = False
+    
     def update(self):
         if not self.board == [] and self.board.getSwitch():
             if self.is_started == False:
                 print 'True'
                 self.is_started = True
                 self.music.play()
+                self.is_ended = False
 
         if self.is_started and not self.is_ended:
             self.play_game()
@@ -54,11 +55,10 @@ class ShakyGame(gamelib.SimpleGame):
                 print "in chk_bg"
                 self.chk_bg = True
                 self.bg.change_image()
-#            self.bg.change_image(1)
-        if self.score <= -3:
+        if self.life == 0:
             self.is_started = False
             self.is_ended = True
-#            self.bg.change_image() #if change_image()*2 == endgameImage
+    
     def end_state(self):
         if not self.is_started and self.is_ended:
             if self.chk_bg == True :
@@ -85,7 +85,7 @@ class ShakyGame(gamelib.SimpleGame):
             else:
                 if key == K_LEFT or key == K_DOWN or key == K_UP or key == K_RIGHT:
                     self.arrow_destroyer(arrow)
-                    self.score -= 1
+                    self.life -= 1
 
         if self.is_started == False:
             if key == K_RETURN:
@@ -131,6 +131,7 @@ class ShakyGame(gamelib.SimpleGame):
             arrow.move(self.fps, self.time)
             if arrow.y < -100:
                 self.arrow_destroyer(arrow)
+                self.life -= 1
 
     def arrow_creator(self):
         self.arrow.append(Arrow())
