@@ -64,6 +64,7 @@ class ShakyGame(gamelib.SimpleGame):
                 self.bg.change_image()
             if self.music.is_song_end():
                 print "song end"
+                self.music.stop()
                 self.music.play()
 
         if self.life == 0:
@@ -89,7 +90,8 @@ class ShakyGame(gamelib.SimpleGame):
             surface.blit(self.score_image,(625,40))
         if self.is_ended:
             surface.blit(self.end_time,(400,280))
-            surface.blit(self.score_image,(400,350))
+            surface.blit(self.score_image,(400,330))
+            surface.blit(self.end_image,(400,370))
             
     def check_board(self):
         board = self.board
@@ -169,6 +171,7 @@ class ShakyGame(gamelib.SimpleGame):
     def render_score(self):
         self.score_image = self.font.render("Score = %d" % self.score, 0,ShakyGame.WHITE)
         self.life_image = self.font.render("Life = %d" % self.life, 0,ShakyGame.WHITE)
+        self.end_image = self.font.render("Press to Restart" , 0,ShakyGame.WHITE)
 
     def render_arrow(self, surface):
         for lock in self.lock_arrow:
