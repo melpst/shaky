@@ -75,6 +75,7 @@ class Background(object):
         self.images = ("res/start_background.jpg",
                        "res/Nyan-cat.jpg",
                        "res/nyan_cat_galaxy.jpg",
+                       "res/nyan_pikachu.jpg"
                        "res/space.jpg") # add image in tuple 
         self.pic = self.images[0] # add image for first time
         self.time = 0
@@ -101,7 +102,7 @@ class Background(object):
 
     def render(self,surface):
         self.img =pygame.image.load(self.pic)
-        if self.pic == "res/space.jpg" or self.pic == "res/nyan_cat_galaxy.jpg":
+        if self.pic == "res/space.jpg" or self.pic == "res/nyan_cat_galaxy.jpg" or self.pic == "res/nyan_pikachu.jpg":
             self.img =pygame.transform.scale(self.img,(800,600))
       #  self.time += pygame.time.Clock().get_time()
       #  if self.time/1000.0 > 3000.0:
