@@ -90,26 +90,27 @@ class ShakyGame(gamelib.SimpleGame):
             surface.blit(self.score_image,(400,350))
             
     def check_board(self):
+        board = self.board
         try:
-            x = self.board.getAcceleroX()
-            y = self.board.getAcceleroY()
+            x = board.getAcceleroX()
+            y = board.getAcceleroY()
         except USBError:
             pass
 
-        arrow = self.arrow[0]
-        if self.is_started:
-            if self.is_destroyed:
-                if arrow.y < 30 and arrow.y > 10:
-                    if x<-200:
-                        self.check_key_press(arrow,K_LEFT)
-                    if x>200:
-                        self.check_key_press(arrow,K_RIGHT)
-                    if y<-200:
-                        self.check_key_press(arrow,K_UP)
-                    if y>200:
-                        self.check_key_press(arrow,K_DOWN)
-        else:
-            if self.board.getSwitch():
+        if board.getSwitch():
+            if self.is_started and len(self.arrow)>0:
+                arrow = self.arrow[0]
+                if self.is_destroyed:
+                    if arrow.y < 30 and arrow.y > 10:
+                        if x<-200:
+                            self.check_key_press(arrow,K_LEFT)
+                        if x>200:
+                            self.check_key_press(arrow,K_RIGHT)
+                        if y<-200:
+                            self.check_key_press(arrow,K_UP)
+                        if y>200:
+                            self.check_key_press(arrow,K_DOWN)
+            else:
                 self.start_game()
             
     def on_key_up(self,key):
