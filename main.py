@@ -34,6 +34,7 @@ class ShakyGame(gamelib.SimpleGame):
         self.bg = Background()
         self.is_started = False
         self.is_ended = False
+        self.key_button = [K_LEFT,K_DOWN,K_UP,K_RIGHT]
         
     def init(self):
         super(ShakyGame, self).init()
@@ -82,8 +83,11 @@ class ShakyGame(gamelib.SimpleGame):
         if self.is_started: 
             surface.blit(self.time_image, (625,10))
             self.render_arrow(surface)
-        elif self.is_ended:
+            surface.blit(self.life_image,(625,70))
+            surface.blit(self.score_image,(625,40))
+        if self.is_ended:
             surface.blit(self.end_time,(400,280))
+            surface.blit(self.score_image,(400,350))
             
     def check_board(self):
         try:
@@ -118,9 +122,10 @@ class ShakyGame(gamelib.SimpleGame):
                 if arrow.y < 30 and arrow.y > 10:
                     self.check_key_press(arrow,key)
                 else:
-                    if key == K_LEFT or key == K_DOWN or key == K_UP or key == K_RIGHT:
-                        self.arrow_destroyer(arrow)
-                        self.life -= 1
+                    for button in self.key_button:
+                        if key == button:
+                            self.arrow_destroyer(arrow)
+                            self.life -= 1
 
 
     def check_key_press(self,arrow,key):
@@ -157,7 +162,11 @@ class ShakyGame(gamelib.SimpleGame):
         self.time += self.clock.get_time()/1000.0
         self.time_image = self.font.render("Time = %.3f" % self.time, 0,ShakyGame.WHITE)
         self.end_time = pygame.font.SysFont("Tlwg Typist,BlodOblique",30).render("YOUR TIME : %.3f"% self.time ,1,ShakyGame.WHITE)
-            
+        
+    def render_score(self):
+        self.score_image = self.font.render("Score = %d" % self.score, 0,ShakyGame.WHITE)
+        self.life_image = self.font.render("Life = %d" % self.life, 0,ShakyGame.WHITE)
+
     def render_arrow(self, surface):
         for lock in self.lock_arrow:
             lock.render(surface)
@@ -183,6 +192,7 @@ class ShakyGame(gamelib.SimpleGame):
 
     def play_game(self): 
         self.render_time()
+        self.render_score()
         
         if len(self.arrow) > 0:
             self.move_arrow()
