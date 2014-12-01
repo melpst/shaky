@@ -22,7 +22,6 @@ class ShakyGame(gamelib.SimpleGame):
             self.board = PeriBoard(dev)
             print "Board connect"
         self.pressed_switch = 0
-        self.time = 0
         
         lock_left = Arrow(0)
         lock_down = Arrow(1)
@@ -40,7 +39,7 @@ class ShakyGame(gamelib.SimpleGame):
         super(ShakyGame, self).init()
         
         self.arrow = [Arrow()]
-        self.time = 0.0
+        self.time = 0
         self.tmp_time = self.time
         self.score = 0
         self.life = 3
@@ -187,7 +186,8 @@ class ShakyGame(gamelib.SimpleGame):
                 self.life -= 1
 
     def arrow_creator(self):
-        self.arrow.append(Arrow())
+        self.arrow.append(Arrow(time = int(self.time)))
+        print self.time
 
     def arrow_destroyer(self,arrow):
         self.arrow.remove(arrow)

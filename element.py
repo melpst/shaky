@@ -3,10 +3,10 @@ from pygame.locals import *
 from random import *
 
 class Arrow:
-    def __init__(self,type = -1):
+    def __init__(self,type = -1, time = 5):
         self.type = type
         self.vy = 50
-        self.is_changed = False
+        self.time = time
         
         if self.type == -1:
             self.y = 450
@@ -34,14 +34,13 @@ class Arrow:
     
     def change_speed(self):
         self.vy += 50
-        self.is_changed = True
 
     def move(self,delta_t, time):
         if time >= 1.0:
             self.y -= self.vy*(1.0/delta_t)
-        if time > 5.0:
-            if not self.is_changed:
-                self.change_speed()
+        if int(time) == self.time+1:
+            self.change_speed()
+            self.time += 1    
 
 ######################################
 class Music(object):
