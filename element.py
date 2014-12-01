@@ -75,7 +75,7 @@ class Background(object):
         self.images = ("res/start_background.jpg",
                        "res/Nyan-cat.jpg",
                        "res/nyan_cat_galaxy.jpg",
-                       "res/nyan_pikachu.jpg"
+                       "res/nyan_pikachu.jpg",
                        "res/space.jpg") # add image in tuple 
         self.pic = self.images[0] # add image for first time
         self.time = 0

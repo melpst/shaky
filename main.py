@@ -54,7 +54,8 @@ class ShakyGame(gamelib.SimpleGame):
 
         if self.is_started and not self.is_ended:
             self.play_game()
-            self.check_board()
+            if not self.board == []:
+                self.check_board()
             if self.chk_bg == False:
                 print "in chk_bg"
                 self.chk_bg = True
@@ -82,8 +83,11 @@ class ShakyGame(gamelib.SimpleGame):
             self.render_arrow(surface)
             
     def check_board(self):
-        x = self.board.getAcceleroX()
-        y = self.board.getAcceleroY()
+        try:
+            x = self.board.getAcceleroX()
+            y = self.board.getAcceleroY()
+        except USBError:
+            pass
         arrow = self.arrow[0]
         if self.is_destroyed:
             if arrow.y < 30 and arrow.y > 10:
