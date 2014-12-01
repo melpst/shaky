@@ -48,10 +48,22 @@ class Arrow:
 class Music(object):
 
     def __init__(self):
+        self.musics = ['res/Nyan_Cat.ogg',
+                       'res/Pikachu.ogg']
+        self.current_playing = None
         pygame.mixer.init()
-        pygame.mixer.music.load('res/Nyan_Cat.ogg')
+    #    pygame.mixer.music.load('res/Nyan_Cat.ogg')
+    #    self.count = 0
+    
+    def play_different(self):
+        next_song = choice(self.musics)
+        while next_song == self.current_playing:
+            next_song = choice(self.musics)
+        self.current_playing = next_song
+        pygame.mixer.music.load(next_song)
 
     def play(self):
+        self.play_different()
         pygame.mixer.music.play()
         
     def stop(self):
