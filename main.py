@@ -63,12 +63,15 @@ class ShakyGame(gamelib.SimpleGame):
                 print "in chk_bg"
                 self.chk_bg = True
                 self.bg.change_image()
-        
+            if self.music.is_song_end():
+                print "song end"
+                self.music.play()
+
         if self.life == 0:
             self.end_state()
             self.is_started = False
             self.is_ended = True
-    
+
     def end_state(self):
         if not self.is_started and self.is_ended:
             if self.chk_bg == True :

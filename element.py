@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
-
 from random import *
 
 class Arrow:
@@ -51,21 +50,40 @@ class Music(object):
         self.musics = ['res/Nyan_Cat.ogg',
                        'res/Pikachu.ogg']
         self.current_playing = None
+        self.next_song = None
         pygame.mixer.init()
+        
+        self.END_MUSIC_EVENT = pygame.USEREVENT + 0
+        pygame.mixer.music.set_endevent(self.END_MUSIC_EVENT)
     #    pygame.mixer.music.load('res/Nyan_Cat.ogg')
     #    self.count = 0
     
-    def play_different(self):
-        next_song = choice(self.musics)
-        while next_song == self.current_playing:
-            next_song = choice(self.musics)
-        self.current_playing = next_song
-        pygame.mixer.music.load(next_song)
-
-    def play(self):
-        self.play_different()
-        pygame.mixer.music.play()
+    def play_next_song(self):
+        self.next_song = choice(self.musics)
+        while self.next_song == self.current_playing:
+            self.next_song = choice(self.musics)
+        self.current_playing = self.next_song
+        print self.next_song,"in play_different()"
         
+    def is_song_end(self):
+      #  END_MUSIC_EVENT = pygame.USEREVENT + 0
+      #  pygame.mixer.music.set_endevent(END_MUSIC_EVENT)
+        events = pygame.event.get()
+        for event in events:
+            if event.type == self.END_MUSIC_EVENT and event.code == 0:
+                return True
+            else:
+                return False
+    
+    def play(self):
+        self.play_next_song()
+        pygame.mixer.music.load(self.next_song)
+        pygame.mixer.music.play()
+        print "play song"
+  #      self.play_different()
+  #      pygame.mixer.music.queue(self.next_song)
+  #      print self.next_song,"in play()"
+
     def stop(self):
         pygame.mixer.music.stop()
 #######################################
